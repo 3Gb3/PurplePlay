@@ -58,15 +58,9 @@ git clone https://github.com/3Gb3/PurplePlay.git
 # Entre na pasta
 cd PurplePlay
 
-# Abra o index.html no navegador
+# Abra o login.html no navegador
 # Ou use um servidor local (Live Server no VS Code)
 ```
-
-### 3. **Primeiro Acesso**
-1. Abra a aplicação
-2. Clique em "Login" no canto superior direito
-3. Crie uma conta ou faça login
-4. Explore o catálogo de filmes!
 
 ## 🔧 Configuração do Firebase
 
@@ -106,16 +100,6 @@ Este projeto usa Firebase para autenticação e armazenamento. Para usar em seu 
   }
 }
 ```
-
-## 🤝 Contribuição
-
-Contribuições são bem-vindas! Sinta-se à vontade para:
-
-1. Fazer um Fork do projeto
-2. Criar uma Branch para sua feature (`git checkout -b feature/NovaFuncionalidade`)
-3. Commit suas mudanças (`git commit -m 'Adiciona nova funcionalidade'`)
-4. Push para a Branch (`git push origin feature/NovaFuncionalidade`)
-5. Abrir um Pull Request
 
 ## 📄 Licença
 
