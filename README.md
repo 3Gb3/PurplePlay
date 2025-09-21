@@ -48,12 +48,12 @@ PurplePlay/
 ## 📱 Como Usar
 
 ### 1. **Acesso Online**
-Visite: [seuusuario.github.io/PurplePlay](https://seuusuario.github.io/PurplePlay)
+Visite: [seuusuario.github.io/PurplePlay](https://3Gb3.github.io/PurplePlay)
 
 ### 2. **Executar Localmente**
 ```bash
 # Clone o repositório
-git clone https://github.com/seuusuario/PurplePlay.git
+git clone https://github.com/3Gb3/PurplePlay.git
 
 # Entre na pasta
 cd PurplePlay
@@ -107,19 +107,6 @@ Este projeto usa Firebase para autenticação e armazenamento. Para usar em seu 
 }
 ```
 
-## 🌟 Próximas Funcionalidades
-
-- [ ] Sistema de avaliações
-- [ ] Busca avançada de filmes
-- [ ] Trailers integrados
-- [ ] Modo escuro
-- [ ] Perfis de usuário
-- [ ] Recomendações personalizadas
-
-## 📸 Screenshots
-
-*[Adicione screenshots do projeto aqui]*
-
 ## 🤝 Contribuição
 
 Contribuições são bem-vindas! Sinta-se à vontade para:
@@ -133,12 +120,6 @@ Contribuições são bem-vindas! Sinta-se à vontade para:
 ## 📄 Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
-## 👨‍💻 Autor
-
-**Seu Nome**
-- GitHub: [@seuusuario](https://github.com/seuusuario)
-- LinkedIn: [Seu Perfil](https://linkedin.com/in/seuperfil)
 
 ---
 
