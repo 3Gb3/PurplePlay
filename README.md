@@ -48,7 +48,7 @@ PurplePlay/
 ## 📱 Como Usar
 
 ### 1. **Acesso Online**
-Visite: [seuusuario.github.io/PurplePlay](https://3Gb3.github.io/PurplePlay)
+Visite: [3Gb3.github.io/PurplePlay](https://3Gb3.github.io/PurplePlay)
 
 ### 2. **Executar Localmente**
 ```bash
