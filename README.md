@@ -11,7 +11,7 @@ Uma plataforma moderna de streaming de filmes com interface intuitiva e sistema 
 
 ## 🚀 Funcionalidades
 
-- ✅ **Sistema de Login/Cadastro** com Firebase Authentication
+- ✅ **Sistema de Login/Cadastro** com Firebase Authentication (Clique no ícone no canto superior direito)
 - ✅ **Navegação por Gêneros** (Ação, Comédia, Drama, Terror, etc.)
 - ✅ **Interface Responsiva** para desktop e mobile
 - ✅ **Catálogo de Filmes** organizado por categorias
