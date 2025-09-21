@@ -1,6 +1,6 @@
 # 🎬 PurplePlay
 
-Primeiro site realizado por mim, não tinha muito conhecimento na época.
+Primeiro site realizado por mim, não tinha muito conhecimento na época. <br>
 Uma plataforma moderna de streaming de filmes com interface intuitiva e sistema de autenticação.
 
 ![PurplePlay](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow)
