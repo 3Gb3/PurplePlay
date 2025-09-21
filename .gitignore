@@ -1,5 +1,8 @@
 # Arquivos e pastas a serem ignorados pelo Git
 
+# Configurações Firebase (IMPORTANTE!)
+firebase-config.js
+
 # Arquivos do sistema
 .DS_Store
 Thumbs.db

@@ -72,11 +72,24 @@ cd PurplePlay
 
 Este projeto usa Firebase para autenticação e armazenamento. Para usar em seu próprio projeto:
 
-1. Crie um projeto no [Firebase Console](https://console.firebase.google.com)
-2. Configure Authentication (Email/Password)
-3. Configure Realtime Database
-4. Atualize as credenciais em `firebase-config.js`
-5. Configure as regras de segurança (veja seção abaixo)
+### **⚠️ IMPORTANTE - Configuração Local:**
+
+1. **Copie o arquivo template:**
+   ```bash
+   cp firebase-config.template.js firebase-config.js
+   ```
+
+2. **Configure suas credenciais:**
+   - Crie um projeto no [Firebase Console](https://console.firebase.google.com)
+   - Configure Authentication (Email/Password)
+   - Configure Realtime Database
+   - Substitua as credenciais em `firebase-config.js`
+
+3. **Configure as regras de segurança** (veja seção abaixo)
+
+### **🔒 Para GitHub Pages/Produção:**
+- Use variáveis de ambiente ou configure diretamente no arquivo para deploy
+- As chaves Firebase são seguras para frontend quando as regras estão configuradas corretamente
 
 ### Regras de Segurança Recomendadas
 
