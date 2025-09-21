@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PurplePlay - Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="Login/carregar.css" />
+  <link rel="stylesheet" href="Login/opcao2.css" />
+  <link rel="stylesheet" href="Login/fadein.css"/>
+</head>
+<body>
+<div id="meuElemento">
+  <!-- Preloader ao abrir o site -->
+  <div id="preloader">
+    <div class="loader"></div>
+  </div>
+
+  <!-- Preloader ao clicar em "Entrar" -->
+  <div id="preloader2">
+    <div class="loader-box">
+      <div class="logo">🎬</div>
+      <div class="text">Carregando PurplePlay...</div>
+      <div class="barra">
+        <div class="progresso"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrapper">
+    <div class="left-panel">
+      <div class="overlay">
+        <h1><span>Purple</span>Play</h1>
+        <p><strong>O melhor streaming para</strong><br><span>os amantes de cinema</span></p>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div class="container">
+        <div class="buttonsForm">
+          <div class="btnColor" id="btnSlide"></div>
+          <button id="btnSignin">Login</button>
+          <button id="btnSignup">Cadastro</button>
+        </div>
+
+        <h2 class="title">Acesse sua conta</h2>
+
+        <div class="forms-wrapper" id="formsWrapper">
+          <form id="Entrar" class="form active" onsubmit="return verificarLogin(event)">
+            <input type="text" id="loginEmail" placeholder="E-mail" required />
+            <input type="password" id="loginSenha" placeholder="Senha" required />
+            <button type="submit">Entrar</button>
+          </form>
+
+          <form id="Cadastrar" class="form">
+            <input type="text" id="cadastroEmail" placeholder="E-mail" required />
+            <input type="password" id="cadastroSenha" placeholder="Senha" required />
+            <input type="password" id="cadastroConfirmarSenha" placeholder="Confirmar senha" required />
+            <button type="submit">Cadastrar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Animação de entrada -->
+<script>
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const preloader = document.getElementById('preloader');
+      preloader.style.display = 'none';
+    }, 2000);
+  });
+</script>
+
+<!-- Firebase SDK (versão compatível) -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+<!-- Configuração centralizada do Firebase -->
+<script src="firebase-config.js"></script>
+
+<!-- Seu JavaScript principal (adaptado com Firebase) -->
+<script>
+  const btnSignin = document.getElementById("btnSignin");
+  const btnSignup = document.getElementById("btnSignup");
+  const formEntrar = document.getElementById("Entrar");
+  const formCadastrar = document.getElementById("Cadastrar");
+  const btnSlide = document.getElementById("btnSlide");
+
+  window.addEventListener('load', () => {
+    document.body.classList.add('loading');
+    setTimeout(() => {
+      document.getElementById('preloader').style.display = 'none';
+      document.body.classList.remove('loading');
+      const elemento = document.getElementById('meuElemento');
+      if (elemento) elemento.classList.add('fade-in');
+    }, 2000);
+  });
+
+  btnSignin.addEventListener("click", () => {
+    formEntrar.classList.add("active");
+    formCadastrar.classList.remove("active");
+    btnSlide.style.left = "0";
+  });
+
+  btnSignup.addEventListener("click", () => {
+    formEntrar.classList.remove("active");
+    formCadastrar.classList.add("active");
+    btnSlide.style.left = "50%";
+  });
+
+  formCadastrar.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const email = document.getElementById("cadastroEmail").value;
+    const senha = document.getElementById("cadastroSenha").value;
+    const confirmar = document.getElementById("cadastroConfirmarSenha").value;
+
+    if (senha !== confirmar) {
+      alert("As senhas não coincidem.");
+      return;
+    }
+
+    firebase.auth().createUserWithEmailAndPassword(email, senha)
+      .then(() => {
+        alert("Cadastro realizado com sucesso!");
+        formEntrar.classList.add("active");
+        formCadastrar.classList.remove("active");
+        btnSlide.style.left = "0";
+      })
+      .catch(error => {
+        alert("Erro no cadastro: " + error.message);
+      });
+  });
+
+  function verificarLogin(event) {
+    event.preventDefault();
+    const email = document.getElementById("loginEmail").value;
+    const senha = document.getElementById("loginSenha").value;
+
+    firebase.auth().signInWithEmailAndPassword(email, senha)
+      .then(() => {
+        document.getElementById('preloader2').style.display = 'flex';
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 2200);
+      })
+      .catch(() => {
+        alert("Email ou senha inválidos.");
+      });
+
+    return false;
+  }
+</script>
+</body>
+</html>

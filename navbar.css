@@ -1,0 +1,71 @@
+body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #08080f;
+    padding: 10px 30px;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 99999;
+  }
+  
+  
+  .navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .titulo-site {
+    max-width: 12.5vw;
+    max-height: 12.5vh;
+  }
+  
+  .navbar-center {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  position:relative;
+  left: -2.5vw;
+  }
+
+  .navbar-center a {
+  display: block;
+  font-size: 0.9vw;
+  color: white;
+  text-decoration: none;
+  transition: transform 0.5s ease, color 0.5s ease;
+  }
+
+  .navbar-center a:hover {
+  transform: scale(1.08);
+  color: #a46eff;
+  }
+
+  .navbar-center a img {
+    width: 0.9vw;
+    vertical-align: middle;
+    margin-right: 5px;
+  }
+
+  
+  .usuario {
+    font-size: 0.9vw;
+    font-weight: 500;
+    font-family: "Poppins", sans-serif;
+    position: relative;
+    top: -8px;
+  }
+  .avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }

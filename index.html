@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PurplePlay</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="navbar.css"/>
+  <link rel="stylesheet" href="sinopse.css">
+</head>
+<body>
+  <div id="conteudo-principal" class="fade-in">
+    <header class="navbar">
+      <div class="navbar-left">
+        <img class="titulo-site" src="imagens/logoroxa.png" alt="Logo PurplePlay">
+      </div>
+      <nav class="navbar-center">
+        <a href="#" id="btnExplorar"><img src="imagens/busca.png" alt="Explorar">Explorar</a>
+        <a href="#" id="btnMeusFilmes"><img src="imagens/filmes.png" alt="Meus Filmes">Meus Filmes</a>
+      </nav>
+      <div class="navbar-right">
+        <img src="imagens/login.png" alt="Avatar do Usuário" class="avatar" id="avatar4">
+        <span class="usuario" id="saudacao-usuario">Olá</span>
+      </div>
+    </header>
+
+    <div id="explorar-area">
+      <div class="text-explorar">
+        <h1>Gêneros De Filmes</h1>
+      </div>
+
+      <main class="container-input" id="container-input">
+        <button class="button1" id="terror"><span>Terror</span></button>
+        <button class="button2" id="acao"><span>Ação</span></button>
+        <button class="button3" id="comedia"><span>Comédia</span></button>
+        <button class="button4" id="drama"><span>Drama</span></button>
+        <button class="button5" id="romance"><span>Romance</span></button>
+        <button class="button6" id="ficcao"><span>Ficção</span></button>
+        <button class="button7" id="suspense"><span>Suspense</span></button>
+        <button class="button8" id="infantil"><span>Animação</span></button>
+      </main>
+
+      <div class="container-filmes" id="container-filmes">
+        <button class="button-voltar2" id="button-voltar2"><span>X</span></button>
+        <h2 class="filmes-h1">Filmes</h2>
+        <div class="filmes" id="filmes"></div>
+        <div class="container-botao" id="container-botao">
+          <!-- Cards de filmes fixos -->
+          <div class="filme-card"><p class="titulo-filme" id="titulo1">Cuidado Com Quem Chama</p><button class="filme1" id="filme1">Assistir</button></div>
+          <div class="filme-card"><p class="titulo-filme" id="titulo2">Sobrenatural</p><button class="filme2" id="filme2">Assistir</button></div>
+          <div class="filme-card"><p class="titulo-filme" id="titulo3">O Homem Do Saco</p><button class="filme3" id="filme3">Assistir</button></div>
+          <div class="filme-card"><p class="titulo-filme" id="titulo4">Megan</p><button class="filme4" id="filme4">Assistir</button></div>
+          <div class="filme-card"><p class="titulo-filme" id="titulo5">Invocação do Mal</p><button class="filme5" id="filme5">Assistir</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="meus-filmes-container" id="meus-filmes-container">
+      <div class="filmes-header">
+        <h2 class="filmes-h1" id="filmes-h1">Meus Filmes</h2>
+        <button id="modo-remover" class="modo-remover">🗑️</button>
+      </div>
+      <div id="meus-filmes-lista" class="container-botao"></div>
+    </div>
+
+    <div class="janela-modal" id="janela-modal">
+      <div class="modal">
+        <button class="fechar" id="fechar">X</button>
+        <button id="btn-salvar-filme" class="btn-salvar-filme">+</button>
+        <h2 id="modal-titulo">Título do Filme</h2>
+        <p id="modal-sinopse">Sinopse do filme aparece aqui.</p>
+        <p id="modal-duracao">Duração: 1h 30min</p>
+        <iframe title="trailer" id="modal-trailer" width="100%" height="315" src="" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+    <div class="overlay" id="overlay"></div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+  <script src="sinopse2.js"></script>
+  <script src="navbarvoltar.js"></script>
+
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+  <!-- Configuração centralizada do Firebase -->
+  <script src="firebase-config.js"></script>
+
+  <script>
+    firebase.auth().onAuthStateChanged(user => {
+      const saudacao = document.getElementById("saudacao-usuario");
+      if (user) {
+        const nome = user.email.substring(0, 10);
+        saudacao.textContent = `Olá, ${nome}`;
+      } else {
+        saudacao.textContent = "Olá, visitante";
+      }
+    });
+
+    const btnMeusFilmes = document.getElementById("btnMeusFilmes");
+    const btnExplorar = document.getElementById("btnExplorar");
+    const meusFilmesContainer = document.getElementById("meus-filmes-container");
+    const meusFilmesLista = document.getElementById("meus-filmes-lista");
+    const containerFilmes = document.getElementById("container-filmes");
+    const containerInput = document.getElementById("container-input");
+    const explorarArea = document.getElementById("explorar-area");
+    let modoRemocaoAtivo = false;
+
+    document.getElementById("modo-remover").addEventListener("click", () => {
+    modoRemocaoAtivo = !modoRemocaoAtivo;
+    const botao = document.getElementById("modo-remover");
+    botao.textContent = modoRemocaoAtivo ? "🗑️" : "🗑️";
+    if (modoRemocaoAtivo) {
+      alert("Clique no filme que deseja remover.");
+    }
+  });
+
+    btnMeusFilmes.addEventListener("click", () => {
+      const user = firebase.auth().currentUser;
+      if (!user) return alert("Faça login para visualizar seus filmes.");
+
+      const userId = user.email.replace(/\W/g, "");
+      const ref = firebase.database().ref("meusFilmes/" + userId);
+      meusFilmesLista.innerHTML = "";
+
+      ref.once("value", snapshot => {
+        const filmes = snapshot.val();
+        if (!filmes) return;
+
+        const filmesOrdenados = Object.entries(filmes).sort((a, b) => a[0] - b[0]);
+        filmesOrdenados.forEach(([_, filme]) => {
+          const imagemFilme = buscarImagemPorTitulo(filme.titulo);
+          const card = document.createElement("div");
+          card.className = "filme-card";
+
+          const tituloEl = document.createElement("p");
+          tituloEl.className = "titulo-filme";
+          tituloEl.textContent = filme.titulo;
+
+          const btn = document.createElement("button");
+          btn.className = "filme1";
+          btn.style.backgroundImage = `url('${imagemFilme}')`;
+          btn.style.backgroundSize = "cover";
+          btn.style.backgroundPosition = "center";
+          btn.textContent = "Assistir";
+
+          btn.addEventListener("click", () => {
+            if (modoRemocaoAtivo) {
+              if (confirm(`Deseja remover "${filme.titulo}" da sua lista?`)) {
+                firebase.database().ref("meusFilmes/" + userId).once("value", snap => {
+                  const todos = snap.val();
+                  for (const key in todos) {
+                    if (todos[key].titulo === filme.titulo) {
+                      firebase.database().ref("meusFilmes/" + userId + "/" + key).remove()
+                        .then(() => {
+                          alert("Filme removido com sucesso!");
+                          card.remove();
+                        })
+                        .catch(err => alert("Erro ao remover: " + err.message));
+                      break;
+                    }
+                  }
+                });
+              }
+            } else {
+              abrirModal(filme.titulo, filme.sinopse, filme.duracao, filme.trailer);
+            }
+          });
+
+          card.appendChild(tituloEl);
+          card.appendChild(btn);
+          meusFilmesLista.appendChild(card);
+        });
+      });
+
+      explorarArea.style.display = "none";
+      meusFilmesContainer.style.display = "flex";
+    });
+
+    btnExplorar.addEventListener("click", () => {
+      meusFilmesContainer.style.display = "none";
+      explorarArea.style.display = "block";
+    });
+
+    function abrirModal(titulo, sinopse, duracao, trailer) {
+      const modal = document.getElementById("janela-modal");
+      document.getElementById("modal-titulo").textContent = titulo;
+      document.getElementById("modal-sinopse").textContent = sinopse;
+      document.getElementById("modal-duracao").textContent = "Duração: " + duracao;
+      document.getElementById("modal-trailer").src = trailer;
+      modal.style.display = "flex";
+      document.body.classList.add("modal-aberto");
+    }
+
+    function buscarImagemPorTitulo(titulo) {
+      const mapaImagens = {
+        "Cuidado Com Quem Chama": "imagens/terror1.jpeg",
+        "Sobrenatural": "imagens/terror2.jpeg",
+        "O Homem Do Saco": "imagens/terror3.jpeg",
+        "Megan": "imagens/terror4.jpeg",
+        "Invocação do Mal": "imagens/terror5.jpeg",
+        "O Protetor": "imagens/ação1.PNG",
+        "Gladiador": "imagens/ação2.PNG",
+        "Missão Impossível": "imagens/ação3.PNG",
+        "Mad Max": "imagens/ação4.PNG",
+        "John Wick": "imagens/ação5.PNG",
+        "As Branquelas": "imagens/comedia1.PNG",
+        "Superbad": "imagens/comedia2.PNG",
+        "Se Beber, Não Case": "imagens/comedia3.PNG",
+        "Deadpool": "imagens/comedia4.PNG",
+        "Gente Grande": "imagens/comedia5.PNG",
+        "À Espera de um Milagre": "imagens/drama1.PNG",
+        "O Quarto de Jack": "imagens/drama2.PNG",
+        "A Teoria de Tudo": "imagens/drama3.PNG",
+        "O Pianista": "imagens/drama4.PNG",
+        "História de um Casamento": "imagens/drama5.PNG",
+        "Uma Comédia Nada Romântica": "imagens/romance1.jpeg",
+        "Uma Ideia de Você": "imagens/romance2.jpeg",
+        "Simplesmente Acontece": "imagens/romance3.jpeg",
+        "Como Perder um Homem em 10 Dias": "imagens/romance4.jpeg",
+        "Todo Tempo Que Temos": "imagens/romance5.jpeg",
+        "Interestelar": "imagens/ficcao1.jpeg",
+        "Vida": "imagens/ficcao2.jpeg",
+        "Lucy": "imagens/ficcao3.jpeg",
+        "A Chegada": "imagens/ficcao4.jpeg",
+        "Chappie": "imagens/ficcao5.jpeg",
+        "Um Lugar Silencioso": "imagens/suspense1.jpeg",
+        "It - A Coisa": "imagens/suspense2.jpeg",
+        "Corra!": "imagens/suspense3.jpeg",
+        "A Autópsia": "imagens/suspense4.jpeg",
+        "O Quarto dos Desejos": "imagens/suspense5.jpeg",
+        "Moana 2": "imagens/infantil1.jpeg",
+        "Arthur e os Minimoys": "imagens/infantil2.jpeg",
+        "Scooby-Doo": "imagens/infantil3.jpeg",
+        "A Fantástica Fábrica de Chocolate": "imagens/infantil4.jpeg",
+        "Meu Malvado Favorito 4": "imagens/infantil5.jpeg"
+      };
+      return mapaImagens[titulo] || "imagens/padrao.jpeg";
+    }
+  </script>
+</body>
+</html>
