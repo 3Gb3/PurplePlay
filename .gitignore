@@ -1,7 +1,7 @@
 # Arquivos e pastas a serem ignorados pelo Git
 
 # Configurações Firebase (IMPORTANTE!)
-firebase-config.js
+# firebase-config.js  # Comentado temporariamente para GitHub Pages
 
 # Arquivos do sistema
 .DS_Store
