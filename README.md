@@ -101,10 +101,6 @@ Este projeto usa Firebase para autenticação e armazenamento. Para usar em seu 
 }
 ```
 
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
 ---
 
 ⭐ **Gostou do projeto? Deixe uma estrela!** ⭐
