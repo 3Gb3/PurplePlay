@@ -1,107 +1,44 @@
-# 🎬 PurplePlay
+# PurplePlay
 
-Primeiro site realizado por mim, não tinha muito conhecimento na época. <br>
-Uma plataforma moderna de streaming de filmes com interface intuitiva e sistema de autenticação.
+Primeiro site desenvolvido por mim e mais 3 colegas de faculdade.
 
-![PurplePlay](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
-![Firebase](https://img.shields.io/badge/Firebase-FFCA28?logo=firebase&logoColor=black)
+## Sobre o projeto
 
-## 🚀 Funcionalidades
+Projeto acadêmico de uma plataforma de streaming de filmes com:
 
-- ✅ **Sistema de Login/Cadastro** com Firebase Authentication (Clique no ícone no canto superior direito)
-- ✅ **Navegação por Gêneros** (Ação, Comédia, Drama, Terror, etc.)
-- ✅ **Interface Responsiva** para desktop e mobile
-- ✅ **Catálogo de Filmes** organizado por categorias
-- ✅ **Sistema de Favoritos** (Meus Filmes)
-- ✅ **Sinopses Detalhadas** dos filmes
-- ✅ **Animações e Transições** suaves
+- Login e cadastro de usuários
+- Navegação por gêneros
+- Lista de filmes salvos (Meus Filmes)
+- Sinopse e trailer dos filmes
 
-## 🛠️ Tecnologias Utilizadas
+## Minha participação
 
-- **Frontend:** HTML5, CSS3, JavaScript (Vanilla)
-- **Backend:** Firebase (Authentication + Realtime Database)
-- **Hospedagem:** GitHub Pages
-- **Design:** CSS Grid, Flexbox, Animações CSS
+Minha maior responsabilidade no projeto foi o back-end, com foco em:
 
-## 🎯 Estrutura do Projeto
+- Integração com Firebase Authentication
+- Integração com Firebase Realtime Database
+- Interligação do banco de dados com a aplicação
+- Desenvolvimento da tela de login/cadastro e do fluxo de autenticação
 
-```
-PurplePlay/
-├── index.html              # Página de login/cadastro
-├── principal_v2.html       # Página principal
-├── firebase-config.js      # Configurações do Firebase
-├── script.js               # Scripts principais
-├── sinopse2.js            # Script para sinopses
-├── navbarvoltar.js        # Navegação
-├── style.css              # Estilos principais
-├── navbar.css             # Estilos da navbar
-├── sinopse.css            # Estilos das sinopses
-├── imagens/               # Assets de imagens
-└── Login/                 # Estilos do login
-    ├── carregar.css
-    ├── fadein.css
-    └── opcao2.css
-```
+## Tecnologias
 
-## 📱 Como Usar
+- HTML
+- CSS
+- JavaScript
+- Firebase (Authentication e Realtime Database)
 
-### 1. **Acesso Online**
-Visite: [3Gb3.github.io/PurplePlay](https://3Gb3.github.io/PurplePlay)
+## Estrutura principal
 
-### 2. **Executar Localmente**
-```bash
-# Clone o repositório
-git clone https://github.com/3Gb3/PurplePlay.git
+- index.html: página de login/cadastro
+- principal_v2.html: página principal da aplicação
+- firebase-config.js: configuração do Firebase
+- script.js: lógica principal da página de filmes
+- sinopse2.js: dados e comportamento de sinopses
 
-# Entre na pasta
-cd PurplePlay
+## Como executar
 
-# Abra o index.html no navegador
-# Ou use um servidor local (Live Server no VS Code)
-```
+1. Clone o repositório.
+2. Entre na pasta do projeto.
+3. Abra o arquivo index.html no navegador ou use Live Server.
 
-## 🔧 Configuração do Firebase
-
-Este projeto usa Firebase para autenticação e armazenamento. Para usar em seu próprio projeto:
-
-### **⚠️ IMPORTANTE - Configuração Local:**
-
-1. **Copie o arquivo template:**
-   ```bash
-   cp firebase-config.template.js firebase-config.js
-   ```
-
-2. **Configure suas credenciais:**
-   - Crie um projeto no [Firebase Console](https://console.firebase.google.com)
-   - Configure Authentication (Email/Password)
-   - Configure Realtime Database
-   - Substitua as credenciais em `firebase-config.js`
-
-3. **Configure as regras de segurança** (veja seção abaixo)
-
-### **🔒 Para GitHub Pages/Produção:**
-- Use variáveis de ambiente ou configure diretamente no arquivo para deploy
-- As chaves Firebase são seguras para frontend quando as regras estão configuradas corretamente
-
-### Regras de Segurança Recomendadas
-
-```javascript
-// Realtime Database Rules
-{
-  "rules": {
-    "meusFilmes": {
-      "$userId": {
-        ".read": "auth != null && auth.uid == $userId",
-        ".write": "auth != null && auth.uid == $userId"
-      }
-    }
-  }
-}
-```
-
----
-
-⭐ **Gostou do projeto? Deixe uma estrela!** ⭐
+Projeto online: https://3Gb3.github.io/PurplePlay
