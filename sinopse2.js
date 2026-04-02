@@ -326,7 +326,7 @@ botaoSalvar.onclick = () => {
     return;
   }
 
-  const email = user.email;
+  const userId = user.uid;
   const filmeSalvo = {
     titulo: filme.titulo,
     sinopse: filme.sinopse,
@@ -335,7 +335,7 @@ botaoSalvar.onclick = () => {
   };
 
   const timestamp = Date.now();
-    firebase.database().ref("meusFilmes/" + email.replace(/\W/g, "") + "/" + timestamp).set(filmeSalvo)
+    firebase.database().ref("meusFilmes/" + userId + "/" + timestamp).set(filmeSalvo)
       .then(() => alert("Filme salvo com sucesso!"))
       .catch(err => alert("Erro ao salvar filme: " + err.message));
 };

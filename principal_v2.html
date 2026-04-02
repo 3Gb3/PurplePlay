@@ -123,7 +123,7 @@
       const user = firebase.auth().currentUser;
       if (!user) return alert("Faça login para visualizar seus filmes.");
 
-      const userId = user.email.replace(/\W/g, "");
+      const userId = user.uid;
       const ref = firebase.database().ref("meusFilmes/" + userId);
       meusFilmesLista.innerHTML = "";
 
@@ -152,7 +152,7 @@
             if (modoRemocaoAtivo) {
               if (confirm(`Deseja remover "${filme.titulo}" da sua lista?`)) {
                 firebase.database().ref("meusFilmes/" + userId).once("value", snap => {
-                  const todos = snap.val();
+                  const todos = snap.val() || {};
                   for (const key in todos) {
                     if (todos[key].titulo === filme.titulo) {
                       firebase.database().ref("meusFilmes/" + userId + "/" + key).remove()
