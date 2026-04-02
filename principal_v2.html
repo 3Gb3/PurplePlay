@@ -91,13 +91,39 @@
   <script src="firebase-config.js"></script>
 
   <script>
-    firebase.auth().onAuthStateChanged(user => {
+    const AUTH_SESSION_KEY = "purpleplay.auth.session";
+
+    firebase.auth().onAuthStateChanged(async user => {
       const saudacao = document.getElementById("saudacao-usuario");
-      if (user) {
-        const nome = user.email.substring(0, 10);
+      const loginDaSessaoAtual = sessionStorage.getItem(AUTH_SESSION_KEY) === "1";
+
+      if (!user || !loginDaSessaoAtual) {
+        sessionStorage.removeItem(AUTH_SESSION_KEY);
+        try {
+          await firebase.auth().signOut();
+        } catch (error) {
+          console.error("Erro ao encerrar sessao:", error);
+        }
+        window.location.href = "index.html";
+        return;
+      }
+
+      try {
+        // Atualiza o usuário para invalidar sessão de conta removida.
+        await user.reload();
+        const usuarioAtual = firebase.auth().currentUser;
+
+        if (!usuarioAtual) {
+          window.location.href = "index.html";
+          return;
+        }
+
+        const nome = (usuarioAtual.email || "usuario").substring(0, 10);
         saudacao.textContent = `Olá, ${nome}`;
-      } else {
-        saudacao.textContent = "Olá, visitante";
+      } catch (error) {
+        sessionStorage.removeItem(AUTH_SESSION_KEY);
+        await firebase.auth().signOut();
+        window.location.href = "index.html";
       }
     });
 

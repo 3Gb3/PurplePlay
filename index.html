@@ -88,6 +88,7 @@
   const formEntrar = document.getElementById("Entrar");
   const formCadastrar = document.getElementById("Cadastrar");
   const btnSlide = document.getElementById("btnSlide");
+  const AUTH_SESSION_KEY = "purpleplay.auth.session";
 
   window.addEventListener('load', () => {
     document.body.classList.add('loading');
@@ -111,9 +112,9 @@
     btnSlide.style.left = "50%";
   });
 
-  formCadastrar.addEventListener("submit", function (e) {
+  formCadastrar.addEventListener("submit", async function (e) {
     e.preventDefault();
-    const email = document.getElementById("cadastroEmail").value;
+    const email = document.getElementById("cadastroEmail").value.trim().toLowerCase();
     const senha = document.getElementById("cadastroSenha").value;
     const confirmar = document.getElementById("cadastroConfirmarSenha").value;
 
@@ -122,33 +123,71 @@
       return;
     }
 
-    firebase.auth().createUserWithEmailAndPassword(email, senha)
-      .then(() => {
-        alert("Cadastro realizado com sucesso!");
-        formEntrar.classList.add("active");
-        formCadastrar.classList.remove("active");
-        btnSlide.style.left = "0";
-      })
-      .catch(error => {
-        alert("Erro no cadastro: " + error.message);
-      });
+    try {
+      const projeto = (firebase.app().options && firebase.app().options.projectId) || "desconhecido";
+      const credencial = await firebase.auth().createUserWithEmailAndPassword(email, senha);
+      await credencial.user.reload();
+      await firebase.auth().signOut();
+      sessionStorage.removeItem(AUTH_SESSION_KEY);
+
+      const emailCriado = (credencial.user && credencial.user.email) || email;
+      alert(`Cadastro realizado com sucesso para ${emailCriado} no projeto ${projeto}.`);
+      formEntrar.classList.add("active");
+      formCadastrar.classList.remove("active");
+      btnSlide.style.left = "0";
+    } catch (error) {
+      const codigo = error && error.code ? error.code : "";
+
+      if (codigo === "auth/email-already-in-use") {
+        alert("Este e-mail já está cadastrado.");
+      } else if (codigo === "auth/invalid-email") {
+        alert("E-mail inválido.");
+      } else if (codigo === "auth/weak-password") {
+        alert("Senha fraca. Use pelo menos 6 caracteres.");
+      } else if (codigo === "auth/operation-not-allowed") {
+        alert("Cadastro desativado no Firebase. Ative Email/Senha em Authentication > Sign-in method.");
+      } else if (codigo === "auth/network-request-failed") {
+        alert("Falha de rede. Verifique sua conexão e tente novamente.");
+      } else {
+        alert("Erro no cadastro: " + (error.message || "erro desconhecido."));
+      }
+    }
   });
 
-  function verificarLogin(event) {
+  async function verificarLogin(event) {
     event.preventDefault();
-    const email = document.getElementById("loginEmail").value;
+    const email = document.getElementById("loginEmail").value.trim();
     const senha = document.getElementById("loginSenha").value;
 
-    firebase.auth().signInWithEmailAndPassword(email, senha)
-      .then(() => {
-        document.getElementById('preloader2').style.display = 'flex';
-        setTimeout(() => {
-          window.location.href = "principal_v2.html";
-        }, 2200);
-      })
-      .catch(() => {
+    try {
+      await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
+      const credencial = await firebase.auth().signInWithEmailAndPassword(email, senha);
+      // Garante que a conta ainda existe e a sessão está válida.
+      await credencial.user.reload();
+      sessionStorage.setItem(AUTH_SESSION_KEY, "1");
+
+      document.getElementById('preloader2').style.display = 'flex';
+      setTimeout(() => {
+        window.location.href = "principal_v2.html";
+      }, 2200);
+    } catch (error) {
+      sessionStorage.removeItem(AUTH_SESSION_KEY);
+      const codigo = error && error.code ? error.code : "";
+
+      if (codigo === "auth/user-not-found") {
+        alert("Esse e-mail não possui cadastro.");
+      } else if (
+        codigo === "auth/wrong-password" ||
+        codigo === "auth/invalid-credential" ||
+        codigo === "auth/invalid-login-credentials"
+      ) {
         alert("Email ou senha inválidos.");
-      });
+      } else if (codigo === "auth/too-many-requests") {
+        alert("Muitas tentativas. Tente novamente mais tarde.");
+      } else {
+        alert("Não foi possível entrar: " + (error.message || "erro desconhecido."));
+      }
+    }
 
     return false;
   }
