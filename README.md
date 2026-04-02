@@ -30,8 +30,8 @@ Uma plataforma moderna de streaming de filmes com interface intuitiva e sistema 
 
 ```
 PurplePlay/
-├── index.html              # Página principal
-├── login.html              # Página de login/cadastro
+├── index.html              # Página de login/cadastro
+├── principal_v2.html       # Página principal
 ├── firebase-config.js      # Configurações do Firebase
 ├── script.js               # Scripts principais
 ├── sinopse2.js            # Script para sinopses
@@ -59,7 +59,7 @@ git clone https://github.com/3Gb3/PurplePlay.git
 # Entre na pasta
 cd PurplePlay
 
-# Abra o login.html no navegador
+# Abra o index.html no navegador
 # Ou use um servidor local (Live Server no VS Code)
 ```
 
